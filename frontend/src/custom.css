@@ -1,0 +1,66 @@
+body {
+    background-color: #000;
+    color: #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #000;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #00ff00;
+  }
+  
+  /* Links */
+  a {
+    color: #00ff00;
+  }
+  
+  a:hover {
+    color: #00cc00;
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    background-color: #00ff00;
+    border-color: #00ff00;
+    color: #000;
+  }
+  
+  .btn-primary:hover {
+    background-color: #00cc00;
+    border-color: #00cc00;
+  }
+  
+  /* Inputs */
+  .form-control {
+    background-color: #000;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+  }
+  
+  .form-control:focus {
+    background-color: #000;
+    color: #00ff00;
+    border-color: #00cc00;
+    box-shadow: none;
+  }
+  
+  /* Navbar */
+  .navbar-dark .navbar-brand {
+    color: #00ff00;
+  }
+  
+  .navbar-dark .navbar-nav .nav-link {
+    color: #00ff00;
+  }
+  
+  .navbar-dark .navbar-nav .nav-link:hover {
+    color: #00cc00;
+  }
