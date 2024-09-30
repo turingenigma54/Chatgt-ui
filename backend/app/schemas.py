@@ -15,4 +15,6 @@ class UserInDB(UserOut):
     hashed_password: str
 
 class ChatRequest(BaseModel):
-    prompt : str
+    prompt: str
+    conversation_id: Optional[str] = None
+    
