@@ -96,6 +96,7 @@ def chat(
 ):
     prompt = chat_request.prompt
     conversation_id = chat_request.conversation_id
+    model_name = chat_request.model or "llama3.1"
     user_id = str(current_user['_id'])
     messages_collection = db["messages"]
 
@@ -103,7 +104,8 @@ def chat(
     if not conversation_id:
         conversation = {
             "user_id": user_id,
-            "messages": []
+            "messages": [],
+            "model": model_name
         }
         result = messages_collection.insert_one(conversation)
         conversation_id = str(result.inserted_id)
@@ -115,6 +117,7 @@ def chat(
         })
         if not conversation:
             raise HTTPException(status_code=404, detail="Conversation not found")
+        model_name = conversation.get("model", "llama3.1")
 
     # Add user's message
     user_message = {
@@ -125,7 +128,7 @@ def chat(
     conversation['messages'].append(user_message)
 
     # Generate assistant's response
-    response_text = generate_completion(prompt)
+    response_text = generate_completion(prompt, model= model_name)
 
     # Add assistant's message
     assistant_message = {
@@ -156,7 +159,8 @@ def get_conversations(current_user: dict = Depends(get_current_user)):
         conversation_list.append({
             "conversation_id": str(convo['_id']),
             "last_message": convo['messages'][-1]['text'] if convo['messages'] else '',
-            "timestamp": convo['messages'][-1]['timestamp'] if convo['messages'] else 0
+            "timestamp": convo['messages'][-1]['timestamp'] if convo['messages'] else 0,
+            "model": convo.get("model", "llama3.1")
         })
     return {"conversations": conversation_list}
 

@@ -44,10 +44,10 @@ const Login: React.FC = () => {
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
       <Card style={{ width: '400px', backgroundColor: '#000', borderColor: '#00ff00' }}>
         <Card.Body>
-          <h2 className="text-center mb-4">Login</h2>
+          <h2 className="text-center mb-4" style={{ color: '#fff' }}>Login</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="username" className="mb-3">
-              <Form.Label>Username:</Form.Label>
+              <Form.Label style={{ color: '#fff' }}>Username:</Form.Label>
               <Form.Control
                 type="text"
                 value={username}
@@ -56,7 +56,7 @@ const Login: React.FC = () => {
               />
             </Form.Group>
             <Form.Group controlId="password" className="mb-3">
-              <Form.Label>Password:</Form.Label>
+              <Form.Label style={{ color: '#fff' }}>Password:</Form.Label>
               <Form.Control
                 type={showPassword ? 'text' : 'password'}
                 value={password}
@@ -69,13 +69,14 @@ const Login: React.FC = () => {
                 checked={showPassword}
                 onChange={(e) => setShowPassword(e.target.checked)}
                 className="mt-2"
+                style={{ color: '#fff' }}
               />
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100 mb-3">
               Login
             </Button>
             <div className="text-center">
-              <Link to="/register">Don't have an account? Register</Link>
+              <Link to="/register" style={{ color: '#fff' }}>Don't have an account? Register</Link>
             </div>
           </Form>
         </Card.Body>

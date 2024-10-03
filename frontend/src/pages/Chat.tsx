@@ -18,7 +18,10 @@ interface Conversation {
   conversation_id: string;
   last_message: string;
   timestamp: number;
+  model: string;
 }
+
+const availableModels = ['llama3.1', 'llama3.2'];
 
 const Chat: React.FC = () => {
   const { token, setToken } = useContext(AuthContext);
@@ -28,7 +31,8 @@ const Chat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
-
+  const [selectedModel, setSelectedModel] = useState<string>('llama3.1');
+  
   useEffect(() => {
     if (!token) {
       navigate('/login');
@@ -95,6 +99,7 @@ const Chat: React.FC = () => {
         {
           prompt: input,
           conversation_id: activeConversationId,
+          model: selectedModel,
         },
         {
           headers: {
@@ -117,6 +122,7 @@ const Chat: React.FC = () => {
             conversation_id: response.data.conversation_id,
             last_message: assistantMessage.text,
             timestamp: Date.now(),
+            model: selectedModel,
           },
           ...prevConversations,
         ]);
@@ -170,6 +176,14 @@ const Chat: React.FC = () => {
     } catch (error) {
       console.error('Error deleting conversation:', error);
       alert('Failed to delete the conversation.');
+    }
+  };
+
+  const handleSelectConversation = (conversationId: string) => {
+    setActiveConversationId(conversationId);
+    const convo = conversations.find((c) => c.conversation_id === conversationId);
+    if (convo) {
+      setSelectedModel(convo.model || 'llama3.1');
     }
   };
 
@@ -241,23 +255,40 @@ const Chat: React.FC = () => {
       </Navbar>
       <Container fluid className="d-flex flex-grow-1 p-0">
         <div style={{ width: '250px', backgroundColor: '#111', color: '#fff' }}>
+          <Form.Group controlId="modelSelect" className="m-2">
+            <Form.Label>Select Model</Form.Label>
+            <Form.Control
+              as="select"
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              disabled={!!activeConversationId}
+            >
+              {availableModels.map((model) => (
+                <option key={model} value={model}>
+                  {model}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
           <Button variant="primary" onClick={handleNewConversation} className="m-2">
             + New Conversation
           </Button>
           <ListGroup variant="flush">
             {conversations.map((convo) => (
-            <ListGroup.Item
-              key={convo.conversation_id}
-              active={convo.conversation_id === activeConversationId}
-              style={{ cursor: 'pointer', backgroundColor: '#111', color: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-            >
-              <span onClick={() => setActiveConversationId(convo.conversation_id)}>
-                {convo.last_message.substring(0, 20) || 'New Conversation'}
-              </span>
-              <Button variant="link" onClick={() => handleDeleteConversation(convo.conversation_id)} style={{ color: '#fff' }}>
-                <Trash />
-              </Button>
-            </ListGroup.Item>
+              <ListGroup.Item
+                key={convo.conversation_id}
+                active={convo.conversation_id === activeConversationId}
+                style={{ cursor: 'pointer', backgroundColor: '#111', color: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <span onClick={() => handleSelectConversation(convo.conversation_id)}>
+                  {convo.last_message.substring(0, 20) || 'New Conversation'}
+                  <br />
+                  <small>Model: {convo.model}</small>
+                </span>
+                <Button variant="link" onClick={() => handleDeleteConversation(convo.conversation_id)} style={{ color: '#fff' }}>
+                  <Trash />
+                </Button>
+              </ListGroup.Item>
             ))}
           </ListGroup>
         </div>

@@ -17,4 +17,5 @@ class UserInDB(UserOut):
 class ChatRequest(BaseModel):
     prompt: str
     conversation_id: Optional[str] = None
+    model: Optional[str] = None
     

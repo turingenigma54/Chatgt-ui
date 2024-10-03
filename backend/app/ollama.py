@@ -4,12 +4,12 @@ import json
 
 OLLAMA_API_URL = settings.ollama_api_url
 
-def generate_completion(prompt: str) -> str:
+def generate_completion(prompt: str, model: str = "llama3.1") -> str:
     print(f"generate_completion called with prompt: {prompt}")
     url = f"{OLLAMA_API_URL}/api/generate"
     print(f"OLLAMA_API_URL: {OLLAMA_API_URL}")
     payload = {
-        "model": "llama3.1",
+        "model": model,
         "prompt": prompt,
         "stream": False
     }
