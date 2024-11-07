@@ -1,4 +1,4 @@
-# Chat Application README
+# Chat Application 
 
 ## Introduction
 This is a chat application built using FastAPI for the backend and React (chat.tsx) for the frontend. It allows users to register, log in, and communicate through conversations with an assistant model. The project aims to provide an interactive and user-friendly environment for chatting, powered by a custom conversational model.
