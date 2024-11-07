@@ -51,7 +51,7 @@ To get the application running locally, follow these steps:
    ```
 5. Run the FastAPI server:
    ```bash
-   uvicorn main:app --reload
+   uvicorn app.main:app --reload
    ```
 
 ### Frontend Setup
